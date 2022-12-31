@@ -112,8 +112,8 @@ void SimpleEQAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
                                                                                 chainSettings.peakQuality,
                                                                                 juce::Decibels::decibelsToGain(chainSettings.peakGainInDecibels));
 
-    leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
-    rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
+    *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
+    *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
 
 }
 
@@ -171,8 +171,8 @@ void SimpleEQAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juc
         chainSettings.peakQuality,
         juce::Decibels::decibelsToGain(chainSettings.peakGainInDecibels));
 
-    leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
-    rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
+    *leftChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
+    *rightChain.get<ChainPositions::Peak>().coefficients = *peakCoefficients;
 
     juce::dsp::AudioBlock<float> block(buffer);
 
@@ -234,17 +234,17 @@ juce::AudioProcessorValueTreeState::ParameterLayout
     
     layout.add(std::make_unique<juce::AudioParameterFloat>("LowCut Freq",
                                                             "LowCut Freq",
-                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), // in Hertz
+                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 0.25f), // in Hertz
                                                             20.f));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>("HighCut Freq",
                                                             "HighCut Freq",
-                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), // in Hertz
+                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 0.25f), // in Hertz
                                                             20000.f));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Freq",
                                                             "Peak Freq",
-                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), // in Hertz
+                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 0.25f), // in Hertz
                                                             750.f));
 
     layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Gain",
